@@ -2,10 +2,17 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
       <div class="text-xs-center">
-        <v-img :src="`/logo.jpg`"></v-img>
+        <v-img :src="`/logo.jpg`" height="250px"></v-img>
       </div>
       <v-card style="width:500px">
-        <v-card-title class="headline">Hitung Upah Lembur Anda</v-card-title>
+        <v-card-title class="headline">
+          <v-flex xs8>Hitung Upah Lembur Anda</v-flex>
+          <v-flex xs4 text-xs-right>
+            <nuxt-link to="/rumus">
+              <v-btn color="info">Rumus</v-btn>
+            </nuxt-link>
+          </v-flex>
+        </v-card-title>
         <v-card-text>
           <template>
             <v-form ref="form" v-model="valid" lazy-validation>
@@ -28,7 +35,7 @@
                 :items="itemsHoursOfWeek"
                 item-text="text"
                 item-value="value"
-                :rules="[v => !!v || 'Work Day is required']"
+                :rules="[v => !!v || 'Jam kerja harus diisi']"
                 label="Jam Kerja"
                 required
               >
@@ -108,15 +115,30 @@ export default {
     ],
     hoursOfWeek: null,
     itemsHoursOfWeek: [
-      { value: 1, text: '5 Hari (40 Jam/Minggu)' },
-      { value: 2, text: '6 Hari (40 Jam/Minggu)' }
+      {
+        value: 1,
+        text: '5 Hari (40 Jam/Minggu)'
+      },
+      {
+        value: 2,
+        text: '6 Hari (40 Jam/Minggu)'
+      }
     ],
     detailHours: [],
     detailCounter: 0,
     dayTypes: [
-      { value: 1, text: 'Hari Biasa' },
-      { value: 2, text: 'Hari Libur' },
-      { value: 3, text: 'Hari Libur Terpendek' }
+      {
+        value: 1,
+        text: 'Hari Biasa'
+      },
+      {
+        value: 2,
+        text: 'Hari Libur'
+      },
+      {
+        value: 3,
+        text: 'Hari Libur Terpendek'
+      }
     ],
     hoursRules: [
       v => !!v || 'Jam harus diisi',
@@ -135,7 +157,10 @@ export default {
     addItem() {
       if (this.$refs.form.validate()) {
         for (let index = 1; index <= parseInt(this.day); index++) {
-          this.detailHours[index] = { hours: '', dayType: null }
+          this.detailHours[index] = {
+            hours: '',
+            dayType: null
+          }
         }
         this.detailCounter = this.day
       }
